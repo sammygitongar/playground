@@ -21,6 +21,34 @@
     </div>
 
 
+    <script>
+        $.ajax({
+            url: "test_save.php",
+            type: "POST",
+            data: {
+                adno: adno,
+                imageData: imageData
+            },
+            success:function(response) {
+                console.log(response);
+            },
+            error:function(xhr, status, error){
+                console.error(error);
+            }
+
+        });
+    </script>
+
+    <?php 
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['adno']) && isset($_POST['imageData'])){
+            $adno = $_POST['adno'];
+            $imageData == $_POST['imageData'];
+            echo 'Data retrieved successfully';
+        } else {
+            echo 'Data retrieval failed';
+        }
+    ?>
+
 </body>
 </html>
 

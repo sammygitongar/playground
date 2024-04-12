@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <button id="downloadButton">Download Image</button>
+
+    
+
+
+
+    <script>
+
+
+document.getElementById("downloadButton").addEventListener("click", function() {
+    // Example base64 string
+    var base64String = "your_base64_string_here";
+
+    // Example filename
+    var filename = "uploads.jpg";
+
+    // Trigger the download
+    saveBase64Image(base64String, filename);
+});
+
+function saveBase64Image(base64String, filename) {
+    // Extract the content type from the base64 string
+    var contentType = base64String.substring("data:".length, base64String.indexOf(";base64"));
+
+    // Remove the header from the base64 string if present
+    var base64Data = base64String.split(',')[1];
+
+    // Decode the base64 string into a Uint8Array
+    var binaryData = atob(base64Data);
+    var arrayBuffer = new ArrayBuffer(binaryData.length);
+    var uint8Array = new Uint8Array(arrayBuffer);
+    for (var i = 0; i < binaryData.length; i++) {
+        uint8Array[i] = binaryData.charCodeAt(i);
+    }
+
+    // Create a Blob from the Uint8Array
+    var blob = new Blob([uint8Array], { type: contentType });
+
+    // Create a URL for the Blob
+    var url = URL.createObjectURL(blob);
+
+    // Create a link element and simulate a click to trigger download
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+
+    // Cleanup
+    URL.revokeObjectURL(url);
+}
+
+
+
+
+    </script>
+</body>
+</html>
